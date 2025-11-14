@@ -4,6 +4,7 @@ import { withPayload } from '@payloadcms/next/withPayload'
 const nextConfig = {
   // Your Next.js config here
   images: {
+    unoptimized: true, // Required for Cloudflare Workers - Next.js Image optimization doesn't work without Node.js/sharp
     remotePatterns: [
       {
         protocol: 'http' as const,
