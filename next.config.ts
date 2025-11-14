@@ -3,6 +3,18 @@ import { withPayload } from '@payloadcms/next/withPayload'
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Your Next.js config here
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http' as const,
+        hostname: 'localhost',
+      },
+      {
+        protocol: 'https' as const,
+        hostname: 'wp-migration-payload-01.long-9d7.workers.dev',
+      },
+    ],
+  },
   webpack: (webpackConfig: any) => {
     webpackConfig.resolve.extensionAlias = {
       '.cjs': ['.cts', '.cjs'],
