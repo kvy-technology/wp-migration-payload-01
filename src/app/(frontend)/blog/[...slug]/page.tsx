@@ -12,14 +12,17 @@ import { cache } from 'react'
 export default async function Page({ params }: { params: Promise<{ slug: string[] }> }) {
   const { slug } = await params
 
-  const postSlug = slug?.[1]
-  const categorySlug = slug?.[0]
+  // Handle both formats:
+  // /blog/:categorySlug/:postSlug (2 segments)
+  // /blog/:postSlug (1 segment - for posts without category)
+  const postSlug = slug?.length === 2 ? slug[1] : slug?.[0]
+  const categorySlug = slug?.length === 2 ? slug[0] : null
 
-  if (!postSlug || !categorySlug) {
+  if (!postSlug) {
     notFound()
   }
 
-  const post = await queryPostBySlug({ slug: postSlug, categorySlug: categorySlug })
+  const post = await queryPostBySlug({ slug: postSlug, categorySlug: categorySlug || undefined })
 
   if (!post) {
     notFound()

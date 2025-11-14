@@ -25,7 +25,19 @@ const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
     throw new Error('Expected value to be an object')
   }
   const slug = value.slug
-  return relationTo === 'posts' ? `/posts/${slug}` : `/${slug}`
+  
+  if (relationTo === 'posts') {
+    // Check if category is available in the value object (may be populated with depth)
+    const category = (value as any).category
+    const categorySlug =
+      typeof category === 'object' && category !== null && 'slug' in category
+        ? category.slug
+        : null
+    
+    return categorySlug ? `/blog/${categorySlug}/${slug}` : `/blog/${slug}`
+  }
+  
+  return `/${slug}`
 }
 
 const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) => ({
