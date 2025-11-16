@@ -12,7 +12,7 @@ export const PostHero: React.FC<{
   const { heroImage, title, createdAt, populatedAuthors } = post
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto px-4 lg:px-[100px]">
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 text-center">
         <h1 className="max-w-3xl text-pretty text-5xl font-semibold md:text-6xl">{title}</h1>
 

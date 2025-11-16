@@ -1,6 +1,8 @@
 // storage-adapter-import-placeholder
 import { CloudflareContext, getCloudflareContext } from '@opennextjs/cloudflare'
 import { sqliteD1Adapter } from '@payloadcms/db-d1-sqlite' // database-adapter-import
+import { seoPlugin } from '@payloadcms/plugin-seo'
+import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { r2Storage } from '@payloadcms/storage-r2'
 import path from 'path'
@@ -12,6 +14,31 @@ import { Categories } from './collections/categories'
 import { Media } from './collections/media'
 import { Posts } from './collections/posts'
 import { Users } from './collections/users'
+import { getServerSideURL } from './lib/get-url'
+import { Post } from './payload-types'
+
+const generateTitle: GenerateTitle<Post> = ({ doc }) => {
+  return doc?.title ? `${doc.title} | KVY Blog Template` : 'KVY Blog Template'
+}
+
+const generateURL: GenerateURL<Post> = ({ doc }) => {
+  const url = getServerSideURL()
+
+  // Get categorySlug from populated field or from category relationship
+  let categorySlug: string | null | undefined = doc.categorySlug
+
+  // If categorySlug is not populated, try to get it from the category relationship
+  if (!categorySlug && doc.category) {
+    if (typeof doc.category === 'object' && doc.category !== null && 'slug' in doc.category) {
+      categorySlug = doc.category.slug
+    }
+  }
+
+  // Build the published URL path: /blog/:categorySlug/:postSlug
+  const path = categorySlug ? `/blog/${categorySlug}/${doc.slug}` : `/blog/${doc.slug}`
+
+  return `${url}${path}`
+}
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -50,6 +77,10 @@ export default buildConfig({
     r2Storage({
       bucket: cloudflare.env.R2,
       collections: { media: true },
+    }),
+    seoPlugin({
+      generateTitle,
+      generateURL,
     }),
   ],
 })

@@ -2,14 +2,18 @@ import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 
 import '@/app/(frontend)/styles.css'
+import { LivePreviewListener } from '@/components/live-preview-listener'
 import { PostHero } from '@/components/post-hero'
 import { RelatedPosts } from '@/components/related-posts'
 import RichText from '@/components/rich-text'
+import { generateMeta } from '@/lib/generate-meta'
 import configPromise from '@payload-config'
+import { Metadata } from 'next'
 import { draftMode } from 'next/headers'
 import { cache } from 'react'
 
 export default async function Page({ params }: { params: Promise<{ slug: string[] }> }) {
+  const { isEnabled: draft } = await draftMode()
   const { slug } = await params
 
   // Handle both formats:
@@ -29,11 +33,13 @@ export default async function Page({ params }: { params: Promise<{ slug: string[
   }
 
   return (
-    <article>
+    <article className="h-full">
       <PostHero post={post} />
 
+      {draft && <LivePreviewListener />}
+
       <div className="flex flex-col items-center gap-4 pt-8">
-        <div className="container mx-auto">
+        <div className="container mx-auto px-4 lg:px-[100px]">
           <RichText className="max-w-3xl mx-auto" data={post.content} enableGutter={false} />
 
           {post.relatedPosts && post.relatedPosts.length > 0 && (
@@ -49,25 +55,24 @@ export default async function Page({ params }: { params: Promise<{ slug: string[
 }
 
 const queryPostBySlug = cache(
-  async ({ slug, categorySlug }: { slug: string; categorySlug: string }) => {
+  async ({ slug, categorySlug }: { slug: string; categorySlug?: string }) => {
     const { isEnabled: draft } = await draftMode()
-
     const payload = await getPayload({ config: configPromise })
 
-    const categoryResult = await payload.find({
-      collection: 'categories',
-      limit: 1,
-      where: {
-        slug: {
-          equals: categorySlug,
+    let categoryId
+
+    if (categorySlug) {
+      const categoryResult = await payload.find({
+        collection: 'categories',
+        limit: 1,
+        where: {
+          slug: {
+            equals: categorySlug,
+          },
         },
-      },
-    })
+      })
 
-    const categoryId = categoryResult.docs?.[0]?.id
-
-    if (!categoryId) {
-      return null
+      categoryId = categoryResult.docs?.[0]?.id
     }
 
     const result = await payload.find({
@@ -84,11 +89,13 @@ const queryPostBySlug = cache(
               equals: slug,
             },
           },
-          {
-            category: {
-              equals: categoryId,
-            },
-          },
+          categoryId
+            ? {
+                category: {
+                  equals: categoryId,
+                },
+              }
+            : {},
         ],
       },
     })
@@ -151,3 +158,20 @@ const queryPostBySlug = cache(
     return post
   },
 )
+
+type Args = {
+  params: Promise<{
+    slug?: string[]
+  }>
+}
+
+export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
+  const { slug = [] } = await paramsPromise
+
+  const postSlug = slug?.length === 2 ? slug[1] : slug?.[0]
+  const categorySlug = slug?.length === 2 ? slug[0] : null
+
+  const post = await queryPostBySlug({ slug: postSlug, categorySlug: categorySlug ?? undefined })
+
+  return generateMeta({ doc: post })
+}

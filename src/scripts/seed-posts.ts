@@ -1,5 +1,5 @@
-// import config from '@payload-config'
-// import { getPayload } from 'payload'
+import config from '@payload-config'
+import { getPayload } from 'payload'
 
 // const samplePosts = [
 //   {
@@ -64,32 +64,18 @@
 //   },
 // ]
 
-// const seed = async () => {
-//   const payload = await getPayload({ config })
+const seed = async () => {
+  const payload = await getPayload({ config })
 
-//   await payload.delete({
-//     collection: 'posts',
-//     where: {
-//       id: {
-//         not_in: [],
-//       },
-//     },
-//   })
+  await payload.delete({
+    collection: 'posts',
+    where: {
+      id: {
+        not_in: [],
+      },
+    },
+  })
+}
 
-//   for (const postData of samplePosts) {
-//     try {
-//       const post = await payload.create({
-//         collection: 'posts',
-//         data: {
-
-//         },
-//       })
-//       console.log(`✅ Created post: "${post.title}"`)
-//     } catch (error) {
-//       console.error(`❌ Failed to create post "${postData.title}":`, error)
-//     }
-//   }
-// }
-
-// // Call the function here to run your seed script
-// await seed()
+// Call the function here to run your seed script
+await seed()

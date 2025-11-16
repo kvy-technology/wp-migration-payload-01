@@ -2,6 +2,13 @@ import { Banner } from '@/blocks/banner/config'
 import { MediaBlock } from '@/blocks/media-block/config'
 import { generatePreviewPath } from '@/lib/generate-preview-path'
 import {
+  MetaDescriptionField,
+  MetaImageField,
+  MetaTitleField,
+  OverviewField,
+  PreviewField,
+} from '@payloadcms/plugin-seo/fields'
+import {
   BlocksFeature,
   FixedToolbarFeature,
   HeadingFeature,
@@ -53,6 +60,7 @@ export const Posts: CollectionConfig = {
           fields: [
             {
               name: 'heroImage',
+              label: 'Cover Image',
               type: 'upload',
               relationTo: 'media',
             },
@@ -106,6 +114,45 @@ export const Posts: CollectionConfig = {
             },
           ],
           label: 'Meta',
+        },
+        {
+          name: 'meta',
+          label: 'SEO',
+          fields: [
+            OverviewField({
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+              imagePath: 'meta.image',
+              titleOverrides: {
+                minLength: 10,
+                maxLength: 300,
+              },
+            }),
+            MetaTitleField({
+              hasGenerateFn: true,
+              overrides: {
+                minLength: 10,
+                maxLength: 300,
+              },
+            }),
+            MetaImageField({
+              relationTo: 'media',
+            }),
+            MetaDescriptionField({
+              overrides: {
+                minLength: 10,
+                maxLength: 300,
+              },
+            }),
+            PreviewField({
+              // if the `generateUrl` function is configured
+              hasGenerateFn: true,
+
+              // field paths to match the target field for data
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+            }),
+          ],
         },
       ],
     },

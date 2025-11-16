@@ -194,6 +194,14 @@ export interface Post {
   };
   relatedPosts?: (number | Post)[] | null;
   category: number | Category;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
   authors?: (number | User)[] | null;
   populatedAuthors?:
     | {
@@ -449,6 +457,13 @@ export interface PostsSelect<T extends boolean = true> {
   content?: T;
   relatedPosts?: T;
   category?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
   authors?: T;
   populatedAuthors?:
     | T

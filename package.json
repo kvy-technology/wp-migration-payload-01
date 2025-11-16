@@ -6,6 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
+    "clear:db": "bash scripts/clear-database.sh local",
+    "clear:db:remote": "bash scripts/clear-database.sh remote",
     "deploy": "pnpm run deploy:database && pnpm run deploy:app",
     "deploy:app": "opennextjs-cloudflare build --env=$CLOUDFLARE_ENV && opennextjs-cloudflare deploy --env=$CLOUDFLARE_ENV",
     "deploy:database": "cross-env NODE_ENV=production PAYLOAD_SECRET=ignore payload migrate && wrangler d1 execute D1 --command 'PRAGMA optimize' --env=$CLOUDFLARE_ENV --remote",
@@ -26,8 +28,11 @@
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.6.5",
+    "@payloadcms/admin-bar": "3.63.0",
     "@payloadcms/db-d1-sqlite": "3.63.0",
+    "@payloadcms/live-preview-react": "3.63.0",
     "@payloadcms/next": "3.63.0",
+    "@payloadcms/plugin-seo": "3.63.0",
     "@payloadcms/richtext-lexical": "3.63.0",
     "@payloadcms/storage-r2": "3.63.0",
     "@payloadcms/ui": "3.63.0",
