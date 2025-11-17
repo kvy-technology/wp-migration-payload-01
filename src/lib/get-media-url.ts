@@ -1,4 +1,4 @@
-import { getClientSideURL } from './get-url'
+const BUCKET_URL = 'https://media.kvytechnology.com'
 
 /**
  * Processes media resource URL to ensure proper formatting
@@ -6,19 +6,16 @@ import { getClientSideURL } from './get-url'
  * @param cacheTag Optional cache tag to append to the URL
  * @returns Properly formatted URL with cache tag if provided
  */
-export const getMediaUrl = (url: string | null | undefined, cacheTag?: string | null): string => {
-  if (!url) return ''
-
-  if (cacheTag && cacheTag !== '') {
-    cacheTag = encodeURIComponent(cacheTag)
-  }
+export const getMediaUrl = (
+  filename: string | null | undefined,
+  cacheTag?: string | null,
+): string => {
+  if (!filename) return ''
 
   // Check if URL already has http/https protocol
-  if (url.startsWith('http://') || url.startsWith('https://')) {
-    return cacheTag ? `${url}?${cacheTag}` : url
+  if (filename.startsWith('http://') || filename.startsWith('https://')) {
+    return filename
   }
 
-  // Otherwise prepend client-side URL
-  const baseUrl = getClientSideURL()
-  return cacheTag ? `${baseUrl}${url}?${cacheTag}` : `${baseUrl}${url}`
+  return `${BUCKET_URL}/${filename}`
 }

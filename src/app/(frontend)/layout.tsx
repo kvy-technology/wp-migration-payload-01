@@ -16,7 +16,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen">
+      <body>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -29,7 +29,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             }}
           />
 
-          <main className="h-full">{children}</main>
+          <main className="min-h-screen">{children}</main>
         </ThemeProvider>
       </body>
     </html>

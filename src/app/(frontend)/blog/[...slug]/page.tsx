@@ -33,7 +33,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string[
   }
 
   return (
-    <article className="h-full">
+    <article className="py-20">
       <PostHero post={post} />
 
       {draft && <LivePreviewListener />}

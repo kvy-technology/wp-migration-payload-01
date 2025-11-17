@@ -22,11 +22,11 @@ export default async function PostsPage() {
   })
 
   return (
-    <div className="h-full bg-black pt-24 pb-24">
+    <div className="pt-24 pb-24">
       <div className="container mx-auto px-4 lg:px-[100px]">
         <div className="mb-16">
           <div className="text-center">
-            <h1>Blog Posts</h1>
+            <h1 className="text-4xl font-bold">Blog Posts</h1>
           </div>
         </div>
 

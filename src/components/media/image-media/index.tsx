@@ -30,13 +30,15 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     loading: loadingFromProps,
   } = props
 
+  console.log('props', props)
+
   let width: number | undefined
   let height: number | undefined
   let alt = altFromProps
   let src: StaticImageData | string = srcFromProps || ''
 
   if (!src && resource && typeof resource === 'object') {
-    const { alt: altFromResource, height: fullHeight, url, width: fullWidth } = resource
+    const { alt: altFromResource, height: fullHeight, url, width: fullWidth, filename } = resource
 
     width = fullWidth!
     height = fullHeight!
@@ -44,7 +46,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
 
     const cacheTag = resource.updatedAt
 
-    src = getMediaUrl(url, cacheTag)
+    src = getMediaUrl(filename, cacheTag)
   }
 
   const loading = loadingFromProps || (!priority ? 'lazy' : undefined)
@@ -56,15 +58,19 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         .map(([, value]) => `(max-width: ${value}px) ${value * 2}w`)
         .join(', ')
 
+  // Check if src is from external domain (img.kvytechnology.com) to add crossOrigin
+  const isExternalImage = typeof src === 'string' && src.startsWith('http')
+
   return (
     <picture className={cn(pictureClassName)}>
       <NextImage
         alt={alt || ''}
         className={cn(imgClassName)}
+        crossOrigin={isExternalImage ? 'anonymous' : undefined}
         fill={fill}
         height={!fill ? height : undefined}
-        placeholder="blur"
-        blurDataURL={placeholderBlur}
+        // placeholder="blur"
+        // blurDataURL={placeholderBlur}
         priority={priority}
         quality={100}
         loading={loading}
