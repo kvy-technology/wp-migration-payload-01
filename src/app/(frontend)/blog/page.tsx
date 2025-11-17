@@ -21,8 +21,6 @@ export default async function PostsPage() {
     },
   })
 
-  console.log('posts', posts)
-
   return (
     <div className="h-full bg-black pt-24 pb-24">
       <div className="container mx-auto px-4 lg:px-[100px]">

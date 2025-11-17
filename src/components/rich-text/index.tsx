@@ -1,3 +1,10 @@
+import { BannerBlock } from '@/blocks/banner/component'
+import { MediaBlock } from '@/blocks/media-block/component'
+import { cn } from '@/lib/utils'
+import type {
+  BannerBlock as BannerBlockProps,
+  MediaBlock as MediaBlockProps,
+} from '@/payload-types'
 import {
   DefaultNodeTypes,
   SerializedBlockNode,
@@ -9,14 +16,8 @@ import {
   JSXConvertersFunction,
   LinkJSXConverter,
 } from '@payloadcms/richtext-lexical/react'
+import './css/common.css'
 
-import { BannerBlock } from '@/blocks/banner/component'
-import { MediaBlock } from '@/blocks/media-block/component'
-import { cn } from '@/lib/utils'
-import type {
-  BannerBlock as BannerBlockProps,
-  MediaBlock as MediaBlockProps,
-} from '@/payload-types'
 type NodeTypes = DefaultNodeTypes | SerializedBlockNode<MediaBlockProps | BannerBlockProps>
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
@@ -25,18 +26,16 @@ const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
     throw new Error('Expected value to be an object')
   }
   const slug = value.slug
-  
+
   if (relationTo === 'posts') {
     // Check if category is available in the value object (may be populated with depth)
     const category = (value as any).category
     const categorySlug =
-      typeof category === 'object' && category !== null && 'slug' in category
-        ? category.slug
-        : null
-    
+      typeof category === 'object' && category !== null && 'slug' in category ? category.slug : null
+
     return categorySlug ? `/blog/${categorySlug}/${slug}` : `/blog/${slug}`
   }
-  
+
   return `/${slug}`
 }
 
@@ -70,15 +69,7 @@ export default function RichText(props: Props) {
   return (
     <ConvertRichText
       converters={jsxConverters}
-      className={cn(
-        'payload-richtext',
-        {
-          container: enableGutter,
-          'max-w-none': !enableGutter,
-          'mx-auto prose md:prose-md dark:prose-invert': enableProse,
-        },
-        className,
-      )}
+      className={cn('container mx-auto common', className)}
       {...rest}
     />
   )

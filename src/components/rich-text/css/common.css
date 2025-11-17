@@ -1,0 +1,129 @@
+.common ul,
+.common ol,
+.common img {
+  margin-bottom: 1em;
+}
+
+.common p {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.common h1,
+.common h2,
+.common h3,
+.common h4,
+.common h5,
+.common h6 {
+  margin-bottom: 20px;
+  font-weight: 800;
+}
+
+.common hr {
+  margin-block: 20px;
+}
+
+.common strong {
+  font-weight: 600;
+}
+
+.common .btn-block a {
+  text-decoration: none;
+}
+
+.common ul.list-bullet {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.common ol.list-number {
+  list-style-type: decimal;
+  margin-left: 20px;
+}
+
+.common ul.list-bullet li,
+.common ol.list-number li {
+  display: list-item;
+  text-align: -webkit-match-parent;
+  unicode-bidi: isolate;
+  margin-bottom: 20px;
+  position: relative;
+  margin-left: 20px;
+}
+
+.common ul.list-check {
+  list-style-type: none;
+  margin-left: 20px;
+}
+
+.common ul.list-check input {
+  margin-right: 10px;
+}
+
+.common h1,
+.common h2,
+.common h3,
+.common h4,
+.common h5,
+.common h6 {
+  line-height: 1.2;
+}
+
+.common h1:first-child,
+.common h2:first-child,
+.common h3:first-child,
+.common h4:first-child,
+.common h5:first-child,
+.common h6:first-child {
+  margin-top: 0;
+}
+
+.common h6 {
+  font-size: 20px;
+}
+
+.common h5 {
+  font-size: 20px;
+}
+
+.common h4 {
+  font-size: 24px;
+}
+
+.common h3 {
+  font-size: 28px;
+}
+
+.common h2 {
+  font-size: 32px;
+}
+
+.common h1 {
+  font-size: 40px;
+}
+
+@media (max-width: 1023px) {
+  .common h6 {
+    font-size: 20px;
+  }
+
+  .common h5 {
+    font-size: 20px;
+  }
+
+  .common h4 {
+    font-size: 24px;
+  }
+
+  .common h3 {
+    font-size: 28px;
+  }
+
+  .common h2 {
+    font-size: 32px;
+  }
+
+  .common h1 {
+    font-size: 40px;
+  }
+}
