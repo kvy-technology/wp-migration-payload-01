@@ -1,24 +1,12 @@
 import config from '@payload-config'
 import { getPayload } from 'payload'
 import { htmlToLexicalContent } from './helper'
+import { postContent } from './seed'
 
 const payload = await getPayload({ config })
 
 async function main() {
-  const html = `
-    <table>
-      <tr>
-        <th>Company</th>
-        <th>Contact</th>
-        <th>Country</th>
-      </tr>
-      <tr>
-        <td>Alfreds Futterkiste</td>
-        <td>Maria Anders</td>
-        <td>Germany</td>
-      </tr>
-    </table>  
-`
+  const html = postContent
 
   const lexicalJSON = await htmlToLexicalContent({
     html,
@@ -39,9 +27,12 @@ async function main() {
   try {
     await payload.update({
       collection: 'posts',
-      id: '1',
+      id: '2',
       data: {
+        title: 'test post 2',
         content: lexicalJSON,
+        slug: 'test-post-2',
+        category: 1,
       },
     })
     console.log('\n✅ Successfully updated post with content!')
