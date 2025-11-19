@@ -1,9 +1,17 @@
 import { BannerBlock } from '@/blocks/banner/component'
+import { ButtonBlock } from '@/blocks/button-block/component'
+import { GalleryBlock } from '@/blocks/gallery-block/component'
 import { MediaBlock } from '@/blocks/media-block/component'
+import { VideoBlock } from '@/blocks/video-block/component'
+import { YoutubeBlock } from '@/blocks/youtube-block/component'
 import { cn } from '@/lib/utils'
 import type {
   BannerBlock as BannerBlockProps,
+  ButtonBlock as ButtonBlockProps,
+  GalleryBlock as GalleryBlockProps,
   MediaBlock as MediaBlockProps,
+  VideoBlock as VideoBlockProps,
+  YoutubeBlock as YoutubeBlockProps,
 } from '@/payload-types'
 import {
   DefaultNodeTypes,
@@ -18,7 +26,16 @@ import {
 } from '@payloadcms/richtext-lexical/react'
 import './css/common.css'
 
-type NodeTypes = DefaultNodeTypes | SerializedBlockNode<MediaBlockProps | BannerBlockProps>
+type NodeTypes =
+  | DefaultNodeTypes
+  | SerializedBlockNode<
+      | MediaBlockProps
+      | BannerBlockProps
+      | ButtonBlockProps
+      | GalleryBlockProps
+      | VideoBlockProps
+      | YoutubeBlockProps
+    >
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
   const { value, relationTo } = linkNode.fields.doc!
@@ -44,6 +61,10 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
   ...LinkJSXConverter({ internalDocToHref }),
   blocks: {
     banner: ({ node }) => <BannerBlock className="col-start-2 mb-4" {...node.fields} />,
+    buttonBlock: ({ node }) => <ButtonBlock className="col-start-1 col-span-3" {...node.fields} />,
+    galleryBlock: ({ node }) => (
+      <GalleryBlock className="col-start-1 col-span-3" {...node.fields} />
+    ),
     mediaBlock: ({ node }) => (
       <MediaBlock
         className="col-start-1 col-span-3"
@@ -53,6 +74,10 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
         enableGutter={false}
         disableInnerContainer={true}
       />
+    ),
+    videoBlock: ({ node }) => <VideoBlock className="col-start-1 col-span-3" {...node.fields} />,
+    youtubeBlock: ({ node }) => (
+      <YoutubeBlock className="col-start-1 col-span-3" {...node.fields} />
     ),
   },
 })

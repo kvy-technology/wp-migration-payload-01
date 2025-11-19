@@ -1,5 +1,9 @@
 import { Banner } from '@/blocks/banner/config'
+import { ButtonBlock } from '@/blocks/button-block/config'
+import { GalleryBlock } from '@/blocks/gallery-block/config'
 import { MediaBlock } from '@/blocks/media-block/config'
+import { VideoBlock } from '@/blocks/video-block/config'
+import { YoutubeBlock } from '@/blocks/youtube-block/config'
 import { generatePreviewPath } from '@/lib/generate-preview-path'
 import {
   MetaDescriptionField,
@@ -72,7 +76,16 @@ export const Posts: CollectionConfig = {
                   return [
                     ...rootFeatures,
                     HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-                    BlocksFeature({ blocks: [Banner, MediaBlock] }),
+                    BlocksFeature({
+                      blocks: [
+                        Banner,
+                        ButtonBlock,
+                        GalleryBlock,
+                        MediaBlock,
+                        VideoBlock,
+                        YoutubeBlock,
+                      ],
+                    }),
                     FixedToolbarFeature(),
                     InlineToolbarFeature(),
                     HorizontalRuleFeature(),

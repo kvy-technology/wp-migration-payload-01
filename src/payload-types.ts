@@ -604,6 +604,46 @@ export interface BannerBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ButtonBlock".
+ */
+export interface ButtonBlock {
+  link?: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?: {
+      relationTo: 'posts';
+      value: number | Post;
+    } | null;
+    url?: string | null;
+    label?: string | null;
+  };
+  /**
+   * Choose the button style
+   */
+  appearance?: ('default' | 'outline') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'buttonBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "GalleryBlock".
+ */
+export interface GalleryBlock {
+  images: {
+    image: number | Media;
+    id?: string | null;
+  }[];
+  /**
+   * Number of images to display per row
+   */
+  numberPerRow: '1' | '2' | '3' | '4';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'galleryBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "MediaBlock".
  */
 export interface MediaBlock {
@@ -611,6 +651,32 @@ export interface MediaBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VideoBlock".
+ */
+export interface VideoBlock {
+  /**
+   * Upload a video file (MP4, WebM, etc.)
+   */
+  video: number | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'videoBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "YoutubeBlock".
+ */
+export interface YoutubeBlock {
+  /**
+   * Enter a YouTube video URL (e.g., https://www.youtube.com/watch?v=VIDEO_ID or https://youtu.be/VIDEO_ID)
+   */
+  youtubeUrl: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'youtubeBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
