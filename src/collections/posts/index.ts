@@ -1,8 +1,10 @@
 import { Banner } from '@/blocks/banner/config'
 import { ButtonBlock } from '@/blocks/button-block/config'
+import { ColumnsBlock } from '@/blocks/columns-block/config'
 import { GalleryBlock } from '@/blocks/gallery-block/config'
 import { MediaBlock } from '@/blocks/media-block/config'
 import { VideoBlock } from '@/blocks/video-block/config'
+import { VideopressBlock } from '@/blocks/videopress-block/config'
 import { YoutubeBlock } from '@/blocks/youtube-block/config'
 import { generatePreviewPath } from '@/lib/generate-preview-path'
 import {
@@ -22,9 +24,6 @@ import {
 } from '@payloadcms/richtext-lexical'
 import type { CollectionConfig } from 'payload'
 import { slugField } from 'payload'
-import { populateAuthors } from './hooks/populateAuthors'
-import { populateCategorySlug } from './hooks/populateCategorySlug'
-import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
 
 export const Posts: CollectionConfig = {
   slug: 'posts',
@@ -80,9 +79,11 @@ export const Posts: CollectionConfig = {
                       blocks: [
                         Banner,
                         ButtonBlock,
+                        ColumnsBlock,
                         GalleryBlock,
                         MediaBlock,
                         VideoBlock,
+                        VideopressBlock,
                         YoutubeBlock,
                       ],
                     }),
@@ -218,9 +219,9 @@ export const Posts: CollectionConfig = {
     slugField(),
   ],
   hooks: {
-    afterChange: [revalidatePost],
-    afterRead: [populateAuthors, populateCategorySlug],
-    afterDelete: [revalidateDelete],
+    // afterChange: [revalidatePost],
+    // afterRead: [populateAuthors, populateCategorySlug],
+    // afterDelete: [revalidateDelete],
   },
   versions: {
     drafts: {

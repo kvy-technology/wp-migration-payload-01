@@ -1,8 +1,10 @@
 import { BannerBlock } from '@/blocks/banner/component'
 import { ButtonBlock } from '@/blocks/button-block/component'
+import { ColumnsBlock } from '@/blocks/columns-block/component'
 import { GalleryBlock } from '@/blocks/gallery-block/component'
 import { MediaBlock } from '@/blocks/media-block/component'
 import { VideoBlock } from '@/blocks/video-block/component'
+import { VideopressBlock } from '@/blocks/videopress-block/component'
 import { YoutubeBlock } from '@/blocks/youtube-block/component'
 import { cn } from '@/lib/utils'
 import type {
@@ -11,6 +13,7 @@ import type {
   GalleryBlock as GalleryBlockProps,
   MediaBlock as MediaBlockProps,
   VideoBlock as VideoBlockProps,
+  VideopressBlock as VideopressBlockProps,
   YoutubeBlock as YoutubeBlockProps,
 } from '@/payload-types'
 import {
@@ -34,6 +37,7 @@ type NodeTypes =
       | ButtonBlockProps
       | GalleryBlockProps
       | VideoBlockProps
+      | VideopressBlockProps
       | YoutubeBlockProps
     >
 
@@ -62,6 +66,9 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
   blocks: {
     banner: ({ node }) => <BannerBlock className="col-start-2 mb-4" {...node.fields} />,
     buttonBlock: ({ node }) => <ButtonBlock className="col-start-1 col-span-3" {...node.fields} />,
+    columnsBlock: ({ node }) => (
+      <ColumnsBlock className="col-start-1 col-span-3" {...node.fields} />
+    ),
     galleryBlock: ({ node }) => (
       <GalleryBlock className="col-start-1 col-span-3" {...node.fields} />
     ),
@@ -76,6 +83,9 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
       />
     ),
     videoBlock: ({ node }) => <VideoBlock className="col-start-1 col-span-3" {...node.fields} />,
+    videopressBlock: ({ node }) => (
+      <VideopressBlock className="col-start-1 col-span-3" {...node.fields} />
+    ),
     youtubeBlock: ({ node }) => (
       <YoutubeBlock className="col-start-1 col-span-3" {...node.fields} />
     ),

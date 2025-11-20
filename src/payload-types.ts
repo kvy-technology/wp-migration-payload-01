@@ -627,6 +627,37 @@ export interface ButtonBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ColumnsBlock".
+ */
+export interface ColumnsBlock {
+  columns: {
+    content: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    id?: string | null;
+  }[];
+  /**
+   * Number of columns to display (1-6)
+   */
+  columnCount?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'columnsBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "GalleryBlock".
  */
 export interface GalleryBlock {
@@ -664,6 +695,19 @@ export interface VideoBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'videoBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VideopressBlock".
+ */
+export interface VideopressBlock {
+  /**
+   * Enter a VideoPress video URL (e.g., https://videopress.com/v/VIDEO_ID)
+   */
+  videopressUrl: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'videopressBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
